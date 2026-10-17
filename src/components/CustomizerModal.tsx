@@ -139,7 +139,7 @@ export const CustomizerModal: React.FC<CustomizerModalProps> = ({
                   </label>
                   <span className="text-xs text-stone-400">Plant milk +$0.50</span>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {(['Whole', 'Oat', 'Almond', 'Skim', 'None'] as MilkType[]).map((m) => (
                     <button
                       key={m}

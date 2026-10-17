@@ -9,7 +9,6 @@ import {
   CreditCard,
   Printer,
   ChevronRight,
-  Sparkles,
   RotateCcw
 } from 'lucide-react';
 
@@ -134,17 +133,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   }, [scopedOrders]);
 
   return (
-    <div className="flex-1 overflow-y-auto bg-stone-100 p-6 lg:p-8 space-y-6">
+    <div className="flex-1 overflow-y-auto bg-stone-100 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-stone-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-stone-200">
         <div>
           <div className="text-xs text-stone-500 font-medium">Analytics &amp; Executive Summary</div>
-          <h2 className="text-2xl font-bold text-stone-900 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight">
             Coffee Shop Sales Dashboard
           </h2>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           {/* Time range selector */}
           <div className="flex items-center p-1 bg-stone-200 rounded-lg text-xs font-medium">
             <button
@@ -171,7 +170,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           <button
             onClick={onNavigateToPOS}
-            className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3 sm:px-4 py-1.5 sm:py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition-colors shadow-2xs flex items-center gap-1.5"
           >
             <Coffee className="w-4 h-4" />
             <span>Open Register</span>
@@ -180,80 +179,80 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </div>
 
       {/* KPI Stats Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Revenue */}
-        <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
           <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-            <span>Total Revenue {timeRange === 'today' ? 'Today' : ''}</span>
-            <span className="p-1.5 rounded-md bg-emerald-50 text-emerald-700">
-              <DollarSign className="w-4 h-4" />
+            <span className="truncate">Revenue {timeRange === 'today' ? 'Today' : ''}</span>
+            <span className="p-1.5 rounded-md bg-emerald-50 text-emerald-700 shrink-0">
+              <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </span>
           </div>
-          <div className="text-2xl font-black text-stone-900 font-mono tabular-nums">
+          <div className="text-xl sm:text-2xl font-black text-stone-900 font-mono tabular-nums">
             ${totalRevenue.toFixed(2)}
           </div>
-          <div className="text-[11px] text-emerald-600 font-medium flex items-center gap-1 pt-1">
-            <TrendingUp className="w-3 h-3" />
-            <span>Live updated via array reduce()</span>
+          <div className="text-[10px] sm:text-[11px] text-emerald-600 font-medium flex items-center gap-1 pt-1 truncate">
+            <TrendingUp className="w-3 h-3 shrink-0" />
+            <span className="truncate">Live reduce()</span>
           </div>
         </div>
 
         {/* Total Orders */}
-        <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
           <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-            <span>Total Orders {timeRange === 'today' ? 'Today' : ''}</span>
-            <span className="p-1.5 rounded-md bg-amber-50 text-amber-700">
-              <ShoppingBag className="w-4 h-4" />
+            <span className="truncate">Orders {timeRange === 'today' ? 'Today' : ''}</span>
+            <span className="p-1.5 rounded-md bg-amber-50 text-amber-700 shrink-0">
+              <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </span>
           </div>
-          <div className="text-2xl font-black text-stone-900 font-mono tabular-nums">
+          <div className="text-xl sm:text-2xl font-black text-stone-900 font-mono tabular-nums">
             {totalOrders}
           </div>
-          <div className="text-[11px] text-stone-500 font-medium pt-1">
-            Across active registers
+          <div className="text-[10px] sm:text-[11px] text-stone-500 font-medium pt-1 truncate">
+            Completed tickets
           </div>
         </div>
 
         {/* Average Order Value (AOV) */}
-        <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
           <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-            <span>Average Order Value</span>
-            <span className="p-1.5 rounded-md bg-sky-50 text-sky-700">
-              <TrendingUp className="w-4 h-4" />
+            <span className="truncate">Avg Ticket</span>
+            <span className="p-1.5 rounded-md bg-sky-50 text-sky-700 shrink-0">
+              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </span>
           </div>
-          <div className="text-2xl font-black text-stone-900 font-mono tabular-nums">
+          <div className="text-xl sm:text-2xl font-black text-stone-900 font-mono tabular-nums">
             ${averageOrderValue.toFixed(2)}
           </div>
-          <div className="text-[11px] text-stone-500 font-medium pt-1">
-            Per customer transaction
+          <div className="text-[10px] sm:text-[11px] text-stone-500 font-medium pt-1 truncate">
+            Per transaction
           </div>
         </div>
 
         {/* Total Items Sold */}
-        <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-stone-200 shadow-2xs space-y-1">
           <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-            <span>Drinks &amp; Treats Served</span>
-            <span className="p-1.5 rounded-md bg-orange-50 text-orange-700">
-              <Coffee className="w-4 h-4" />
+            <span className="truncate">Items Served</span>
+            <span className="p-1.5 rounded-md bg-orange-50 text-orange-700 shrink-0">
+              <Coffee className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </span>
           </div>
-          <div className="text-2xl font-black text-stone-900 font-mono tabular-nums">
+          <div className="text-xl sm:text-2xl font-black text-stone-900 font-mono tabular-nums">
             {totalItemsSold}
           </div>
-          <div className="text-[11px] text-stone-500 font-medium pt-1">
-            Prepared by barista team
+          <div className="text-[10px] sm:text-[11px] text-stone-500 font-medium pt-1 truncate">
+            Prepared by baristas
           </div>
         </div>
       </div>
 
       {/* Middle Row: Top Selling Drinks & Category Breakdown */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Top Selling Drinks */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-stone-200 p-5 shadow-2xs space-y-4">
+        <div className="lg:col-span-2 bg-white rounded-xl border border-stone-200 p-4 sm:p-5 shadow-2xs space-y-3 sm:space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-stone-900">
+              <h3 className="text-sm sm:text-base font-bold text-stone-900">
                 Top Selling Coffee &amp; Drinks
               </h3>
               <p className="text-xs text-stone-500">
@@ -270,40 +269,40 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               No sales recorded for this period yet.
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {topSellingDrinks.map((item, idx) => (
                 <div
                   key={item.product.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-stone-50 border border-stone-100 hover:bg-stone-100/60 transition-colors"
+                  className="flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-stone-50 border border-stone-100 hover:bg-stone-100/60 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-md bg-stone-200 font-mono font-bold text-xs text-stone-700 flex items-center justify-center">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <span className="w-5 sm:w-6 h-5 sm:h-6 rounded bg-stone-200 font-mono font-bold text-[10px] sm:text-xs text-stone-700 flex items-center justify-center shrink-0">
                       0{idx + 1}
                     </span>
                     <img
                       src={item.product.image}
                       alt={item.product.name}
-                      className="w-10 h-10 rounded-lg object-cover border border-stone-200"
+                      className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover border border-stone-200 shrink-0"
                       referrerPolicy="no-referrer"
                     />
-                    <div>
-                      <div className="text-sm font-bold text-stone-900">
+                    <div className="min-w-0">
+                      <div className="text-xs sm:text-sm font-bold text-stone-900 truncate">
                         {item.product.name}
                       </div>
-                      <div className="text-xs text-stone-500">
+                      <div className="text-[11px] text-stone-500 truncate">
                         <span>{item.product.category}</span>
                         <span aria-hidden="true" className="mx-1">·</span>
-                        <span>${item.product.price.toFixed(2)} base</span>
+                        <span>${item.product.price.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="text-right">
-                    <div className="text-sm font-bold text-stone-900 font-mono tabular-nums">
+                  <div className="text-right shrink-0 pl-2">
+                    <div className="text-xs sm:text-sm font-bold text-stone-900 font-mono tabular-nums">
                       ${item.revenue.toFixed(2)}
                     </div>
-                    <div className="text-xs text-stone-500 font-mono">
-                      {item.quantity} units sold
+                    <div className="text-[10px] sm:text-xs text-stone-500 font-mono">
+                      {item.quantity} sold
                     </div>
                   </div>
                 </div>
@@ -313,16 +312,16 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
 
         {/* Category Breakdown */}
-        <div className="bg-white rounded-xl border border-stone-200 p-5 shadow-2xs space-y-4 flex flex-col justify-between">
+        <div className="bg-white rounded-xl border border-stone-200 p-4 sm:p-5 shadow-2xs space-y-4 flex flex-col justify-between">
           <div>
-            <h3 className="text-base font-bold text-stone-900">
+            <h3 className="text-sm sm:text-base font-bold text-stone-900">
               Sales by Category
             </h3>
             <p className="text-xs text-stone-500">
               Revenue distribution by drink format
             </p>
 
-            <div className="space-y-4 mt-4">
+            <div className="space-y-3 mt-4">
               {categoryBreakdown.map((cat) => (
                 <div key={cat.category} className="space-y-1">
                   <div className="flex justify-between text-xs font-medium">
@@ -351,37 +350,37 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
 
           {/* Payment Methods summary */}
-          <div className="pt-4 border-t border-stone-200 space-y-2">
-            <div className="text-xs font-bold text-stone-700 uppercase tracking-wider">
+          <div className="pt-3 border-t border-stone-200 space-y-2">
+            <div className="text-[11px] font-bold text-stone-700 uppercase tracking-wider">
               Payment Breakdown
             </div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="p-2 bg-stone-50 rounded-lg border border-stone-200/60">
+            <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+              <div className="p-1.5 bg-stone-50 rounded border border-stone-200/60 truncate">
                 <span className="text-stone-500">Card:</span>{' '}
-                <span className="font-bold font-mono">{paymentMethodStats.card} orders</span>
+                <span className="font-bold font-mono">{paymentMethodStats.card}</span>
               </div>
-              <div className="p-2 bg-stone-50 rounded-lg border border-stone-200/60">
+              <div className="p-1.5 bg-stone-50 rounded border border-stone-200/60 truncate">
                 <span className="text-stone-500">Cash:</span>{' '}
-                <span className="font-bold font-mono">{paymentMethodStats.cash} orders</span>
+                <span className="font-bold font-mono">{paymentMethodStats.cash}</span>
               </div>
-              <div className="p-2 bg-stone-50 rounded-lg border border-stone-200/60">
-                <span className="text-stone-500">QR Scan:</span>{' '}
-                <span className="font-bold font-mono">{paymentMethodStats.qr} orders</span>
+              <div className="p-1.5 bg-stone-50 rounded border border-stone-200/60 truncate">
+                <span className="text-stone-500">QR:</span>{' '}
+                <span className="font-bold font-mono">{paymentMethodStats.qr}</span>
               </div>
-              <div className="p-2 bg-stone-50 rounded-lg border border-stone-200/60">
-                <span className="text-stone-500">Apple/GPay:</span>{' '}
-                <span className="font-bold font-mono">{paymentMethodStats.mobile} orders</span>
+              <div className="p-1.5 bg-stone-50 rounded border border-stone-200/60 truncate">
+                <span className="text-stone-500">Apple:</span>{' '}
+                <span className="font-bold font-mono">{paymentMethodStats.mobile}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Section: Recent Orders Quick Preview */}
-      <div className="bg-white rounded-xl border border-stone-200 p-5 shadow-2xs space-y-4">
+      {/* Bottom Section: Recent Orders */}
+      <div className="bg-white rounded-xl border border-stone-200 p-4 sm:p-5 shadow-2xs space-y-3 sm:space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-stone-900">
+            <h3 className="text-sm sm:text-base font-bold text-stone-900">
               Recent Transactions
             </h3>
             <p className="text-xs text-stone-500">
@@ -394,7 +393,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             title="Reset to default sample data"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Demo Data</span>
+            <span className="hidden xs:inline">Reset Demo</span>
           </button>
         </div>
 
@@ -403,61 +402,104 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             No orders completed yet today.
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-stone-200 text-stone-500 uppercase tracking-wider font-semibold">
-                  <th className="py-2.5 px-3">Order #</th>
-                  <th className="py-2.5 px-3">Time</th>
-                  <th className="py-2.5 px-3">Customer</th>
-                  <th className="py-2.5 px-3">Items Summary</th>
-                  <th className="py-2.5 px-3">Method</th>
-                  <th className="py-2.5 px-3 text-right">Total</th>
-                  <th className="py-2.5 px-3 text-center">Receipt</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100 font-medium">
-                {scopedOrders.slice(0, 5).map((order) => {
-                  const time = new Date(order.createdAt).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  });
+          <>
+            {/* Desktop / Tablet Table */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-left text-xs min-w-[600px]">
+                <thead>
+                  <tr className="border-b border-stone-200 text-stone-500 uppercase tracking-wider font-semibold">
+                    <th className="py-2.5 px-3">Order #</th>
+                    <th className="py-2.5 px-3">Time</th>
+                    <th className="py-2.5 px-3">Customer</th>
+                    <th className="py-2.5 px-3">Items Summary</th>
+                    <th className="py-2.5 px-3">Method</th>
+                    <th className="py-2.5 px-3 text-right">Total</th>
+                    <th className="py-2.5 px-3 text-center">Receipt</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-100 font-medium">
+                  {scopedOrders.slice(0, 5).map((order) => {
+                    const time = new Date(order.createdAt).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    });
 
-                  return (
-                    <tr key={order.id} className="hover:bg-stone-50 transition-colors">
-                      <td className="py-2.5 px-3 font-mono font-bold text-stone-900">
-                        {order.orderNumber}
-                      </td>
-                      <td className="py-2.5 px-3 text-stone-500 font-mono">
-                        {time}
-                      </td>
-                      <td className="py-2.5 px-3 text-stone-700">
-                        {order.customerName || 'Walk-in Guest'}
-                      </td>
-                      <td className="py-2.5 px-3 text-stone-600 max-w-xs truncate">
+                    return (
+                      <tr key={order.id} className="hover:bg-stone-50 transition-colors">
+                        <td className="py-2.5 px-3 font-mono font-bold text-stone-900">
+                          {order.orderNumber}
+                        </td>
+                        <td className="py-2.5 px-3 text-stone-500 font-mono">
+                          {time}
+                        </td>
+                        <td className="py-2.5 px-3 text-stone-700">
+                          {order.customerName || 'Walk-in'}
+                        </td>
+                        <td className="py-2.5 px-3 text-stone-600 max-w-xs truncate">
+                          {order.items.map(i => `${i.quantity}x ${i.product.name}`).join(', ')}
+                        </td>
+                        <td className="py-2.5 px-3 uppercase text-[11px] text-stone-500">
+                          {order.paymentMethod}
+                        </td>
+                        <td className="py-2.5 px-3 text-right font-mono font-bold text-stone-900 tabular-nums">
+                          ${order.total.toFixed(2)}
+                        </td>
+                        <td className="py-2.5 px-3 text-center">
+                          <button
+                            onClick={() => onViewReceipt(order)}
+                            className="px-2.5 py-1 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium transition-colors inline-flex items-center gap-1"
+                          >
+                            <Printer className="w-3 h-3" />
+                            <span>View</span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card List */}
+            <div className="sm:hidden space-y-2">
+              {scopedOrders.slice(0, 5).map((order) => {
+                const time = new Date(order.createdAt).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                });
+
+                return (
+                  <div
+                    key={order.id}
+                    className="p-3 bg-stone-50 rounded-lg border border-stone-200/80 flex items-center justify-between gap-2 text-xs"
+                  >
+                    <div>
+                      <div className="font-mono font-bold text-stone-900 flex items-center gap-2">
+                        <span>{order.orderNumber}</span>
+                        <span className="text-[10px] text-stone-400 font-normal">{time}</span>
+                      </div>
+                      <div className="text-[11px] text-stone-500 truncate max-w-[200px] mt-0.5">
                         {order.items.map(i => `${i.quantity}x ${i.product.name}`).join(', ')}
-                      </td>
-                      <td className="py-2.5 px-3 uppercase text-[11px] text-stone-500">
-                        {order.paymentMethod}
-                      </td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-stone-900 tabular-nums">
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="font-mono font-bold text-stone-900 tabular-nums">
                         ${order.total.toFixed(2)}
-                      </td>
-                      <td className="py-2.5 px-3 text-center">
-                        <button
-                          onClick={() => onViewReceipt(order)}
-                          className="px-2.5 py-1 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium transition-colors inline-flex items-center gap-1"
-                        >
-                          <Printer className="w-3 h-3" />
-                          <span>View</span>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      </span>
+                      <button
+                        onClick={() => onViewReceipt(order)}
+                        className="p-1.5 rounded bg-white border border-stone-200 text-stone-700"
+                        title="View receipt"
+                      >
+                        <Printer className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
     </div>

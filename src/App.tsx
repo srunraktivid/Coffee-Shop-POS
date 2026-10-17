@@ -20,12 +20,14 @@ import { OrdersPage } from './components/OrdersPage';
 import { CustomizerModal } from './components/CustomizerModal';
 import { CheckoutModal } from './components/CheckoutModal';
 import { ReceiptModal } from './components/ReceiptModal';
+import { Menu, Coffee, Store, ShoppingBag } from 'lucide-react';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<NavigationPage>('pos');
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Modals state
   const [customizingProduct, setCustomizingProduct] = useState<Product | null>(null);
@@ -91,7 +93,6 @@ export default function App() {
     const effectiveUnitPrice = unitPrice !== undefined ? unitPrice : product.price;
 
     setCart((prevCart) => {
-      // Find matching item with identical customizations
       const matchIndex = prevCart.findIndex(
         (ci) =>
           ci.product.id === product.id &&
@@ -185,7 +186,6 @@ export default function App() {
     setCart([]);
     setIsCheckoutOpen(false);
 
-    // Open receipt modal with print trigger capability
     setReceiptOrder(newOrder);
     setIsReceiptNew(true);
   }, []);
@@ -223,18 +223,74 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-stone-100 font-sans text-stone-900 antialiased">
-      {/* Sidebar Navigation */}
+    <div className="flex flex-col md:flex-row h-screen w-screen overflow-hidden bg-stone-100 font-sans text-stone-900 antialiased">
+      {/* Mobile Top Header (visible on < md screens) */}
+      <header className="md:hidden flex items-center justify-between px-4 py-3 bg-stone-900 text-white border-b border-stone-800 shrink-0 z-30">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="p-1.5 rounded-lg text-stone-300 hover:text-white hover:bg-stone-800 transition-colors"
+            aria-label="Open navigation menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div className="flex items-center gap-2">
+            <Store className="w-5 h-5 text-amber-500" />
+            <span className="font-bold text-sm tracking-tight">BaristaPro</span>
+            <span className="text-[10px] font-semibold text-amber-400 bg-amber-950/80 border border-amber-800/80 px-1 py-0.2 rounded">
+              POS
+            </span>
+          </div>
+        </div>
+
+        {/* Top Quick Navigation Pills on Mobile */}
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setCurrentPage('pos')}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
+              currentPage === 'pos'
+                ? 'bg-amber-600 text-white'
+                : 'text-stone-300 hover:text-white'
+            }`}
+          >
+            POS
+          </button>
+          <button
+            onClick={() => setCurrentPage('dashboard')}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
+              currentPage === 'dashboard'
+                ? 'bg-amber-600 text-white'
+                : 'text-stone-300 hover:text-white'
+            }`}
+          >
+            Stats
+          </button>
+          <button
+            onClick={() => setCurrentPage('orders')}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
+              currentPage === 'orders'
+                ? 'bg-amber-600 text-white'
+                : 'text-stone-300 hover:text-white'
+            }`}
+          >
+            Orders
+          </button>
+        </div>
+      </header>
+
+      {/* Sidebar (Desktop permanent, Mobile drawer) */}
       <Sidebar
         currentPage={currentPage}
         onNavigate={setCurrentPage}
         cartItemCount={totalCartItemCount}
         todayRevenue={todayRevenue}
         todayOrderCount={todayOrderCount}
+        isMobileOpen={isMobileMenuOpen}
+        onCloseMobile={() => setIsMobileMenuOpen(false)}
       />
 
       {/* Main View Router */}
-      <main className="flex-1 flex overflow-hidden">
+      <main className="flex-1 flex overflow-hidden min-w-0">
         {currentPage === 'pos' && (
           <POSPage
             products={products}

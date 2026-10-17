@@ -136,7 +136,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <label className="block text-xs font-semibold text-stone-600 uppercase tracking-wider mb-2">
               Select Payment Method
             </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <button
                 type="button"
                 onClick={() => setMethod('card')}

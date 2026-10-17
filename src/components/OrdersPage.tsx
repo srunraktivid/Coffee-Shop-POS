@@ -47,25 +47,25 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({
   }, [filteredOrders]);
 
   return (
-    <div className="flex-1 overflow-y-auto bg-stone-100 p-6 lg:p-8 space-y-6">
+    <div className="flex-1 overflow-y-auto bg-stone-100 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-stone-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-stone-200">
         <div>
           <div className="text-xs text-stone-500 font-medium">Transactions &amp; Receipts</div>
-          <h2 className="text-2xl font-bold text-stone-900 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight">
             Order History (/orders)
           </h2>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono font-bold text-stone-700 bg-white px-3 py-1.5 rounded-lg border border-stone-200">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold text-stone-700 bg-white px-3 py-1.5 rounded-lg border border-stone-200 self-start sm:self-auto">
           <span>{filteredOrders.length} Orders</span>
           <span className="text-stone-300">|</span>
-          <span className="text-emerald-700">${totalFilteredRevenue.toFixed(2)} Revenue</span>
+          <span className="text-emerald-700">${totalFilteredRevenue.toFixed(2)} Total</span>
         </div>
       </div>
 
       {/* Search and Filters Strip */}
-      <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-2xs flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-3 sm:p-4 rounded-xl border border-stone-200 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         <div className="relative w-full md:w-80">
           <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -77,7 +77,7 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           {/* Method Filter */}
           <select
             value={methodFilter}
@@ -104,10 +104,10 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({
         </div>
       </div>
 
-      {/* Orders Table */}
-      <div className="bg-white rounded-xl border border-stone-200 shadow-2xs overflow-hidden">
+      {/* Desktop / Tablet Orders Table (hidden on mobile, visible on sm and up) */}
+      <div className="hidden sm:block bg-white rounded-xl border border-stone-200 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[700px]">
             <thead>
               <tr className="bg-stone-50/80 border-b border-stone-200 text-stone-500 uppercase tracking-wider font-semibold">
                 <th className="py-3 px-4">Order #</th>
@@ -213,6 +213,81 @@ export const OrdersPage: React.FC<OrdersPageProps> = ({
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Mobile Card List (visible on mobile < sm) */}
+      <div className="sm:hidden space-y-2.5">
+        {filteredOrders.length === 0 ? (
+          <div className="p-8 text-center text-stone-400 bg-white rounded-xl border border-stone-200 text-xs">
+            No orders found matching filters.
+          </div>
+        ) : (
+          filteredOrders.map((order) => {
+            const dateObj = new Date(order.createdAt);
+            const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateStr = dateObj.toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+            return (
+              <div
+                key={order.id}
+                className="bg-white rounded-xl border border-stone-200 p-3.5 shadow-2xs space-y-2.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-sm text-stone-900">
+                    {order.orderNumber}
+                  </span>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                      order.status === 'Completed'
+                        ? 'bg-emerald-50 text-emerald-700'
+                        : 'bg-rose-50 text-rose-700'
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                </div>
+
+                <div className="text-xs text-stone-600 space-y-1">
+                  <div className="flex justify-between text-[11px] text-stone-400">
+                    <span>{dateStr} at {timeStr}</span>
+                    <span className="uppercase">{order.paymentMethod}</span>
+                  </div>
+                  <div className="line-clamp-2 text-stone-700">
+                    {order.items.map(i => `${i.quantity}x ${i.product.name}`).join(', ')}
+                  </div>
+                  <div className="text-[11px] text-stone-400">
+                    Customer: {order.customerName || 'Walk-in'} · {order.itemCount} items
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+                  <div className="font-mono font-bold text-base text-stone-900 tabular-nums">
+                    ${order.total.toFixed(2)}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => onViewReceipt(order)}
+                      className="px-3 py-1.5 rounded-lg bg-stone-900 text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs"
+                    >
+                      <Printer className="w-3.5 h-3.5" />
+                      <span>Receipt</span>
+                    </button>
+
+                    {order.status === 'Completed' && (
+                      <button
+                        onClick={() => onUpdateStatus(order.id, 'Refunded')}
+                        className="px-2.5 py-1.5 rounded-lg text-rose-600 text-xs font-medium hover:bg-rose-50"
+                      >
+                        Refund
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

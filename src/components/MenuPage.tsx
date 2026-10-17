@@ -9,8 +9,7 @@ import {
   X, 
   Coffee, 
   AlertCircle,
-  RotateCcw,
-  Sparkles
+  RotateCcw
 } from 'lucide-react';
 
 interface MenuPageProps {
@@ -51,7 +50,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({
   const [image, setImage] = useState(PRESET_IMAGES[0].url);
   const [available, setAvailable] = useState(true);
 
-  // Form Validation Errors (Phase 4 requirement: Name is required, Price > 0)
+  // Form Validation Errors
   const [errors, setErrors] = useState<{ name?: string; price?: string }>({});
 
   const filteredProducts = useMemo(() => {
@@ -148,29 +147,29 @@ export const MenuPage: React.FC<MenuPageProps> = ({
   };
 
   return (
-    <div className="flex-1 overflow-y-auto bg-stone-100 p-6 lg:p-8 space-y-6">
+    <div className="flex-1 overflow-y-auto bg-stone-100 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-stone-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-stone-200">
         <div>
           <div className="text-xs text-stone-500 font-medium">Catalog &amp; Inventory</div>
-          <h2 className="text-2xl font-bold text-stone-900 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight">
             Menu Management (CRUD)
           </h2>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <button
             onClick={onResetProducts}
-            className="px-3 py-2 rounded-lg border border-stone-300 text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xs font-medium transition-colors flex items-center gap-1.5"
+            className="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-stone-300 text-stone-600 hover:text-stone-900 hover:bg-stone-50 text-xs font-medium transition-colors flex items-center gap-1.5"
             title="Restore default coffee catalog"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Default Catalog</span>
+            <span className="hidden xs:inline">Reset Catalog</span>
           </button>
 
           <button
             onClick={handleOpenAddModal}
-            className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition-colors shadow-2xs flex items-center gap-1.5"
+            className="px-3 sm:px-4 py-1.5 sm:py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition-colors shadow-2xs flex items-center gap-1.5"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Drink</span>
@@ -179,7 +178,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-2xs flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-3 sm:p-4 rounded-xl border border-stone-200 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         <div className="relative w-full md:w-80">
           <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -191,7 +190,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({
           />
         </div>
 
-        <div className="flex items-center gap-1 w-full md:w-auto overflow-x-auto">
+        <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none">
           {(['All', 'Hot', 'Iced', 'Specialty', 'Bakery'] as const).map((cat) => (
             <button
               key={cat}
@@ -208,10 +207,10 @@ export const MenuPage: React.FC<MenuPageProps> = ({
         </div>
       </div>
 
-      {/* The Table (Phase 4 requirement) */}
-      <div className="bg-white rounded-xl border border-stone-200 shadow-2xs overflow-hidden">
+      {/* Desktop & Tablet Table (hidden on mobile, visible on sm and up) */}
+      <div className="hidden sm:block bg-white rounded-xl border border-stone-200 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[600px]">
             <thead>
               <tr className="bg-stone-50/80 border-b border-stone-200 text-stone-500 uppercase tracking-wider font-semibold">
                 <th className="py-3 px-4">Item</th>
@@ -306,12 +305,88 @@ export const MenuPage: React.FC<MenuPageProps> = ({
         </div>
       </div>
 
-      {/* The Form Modal (Phase 4 requirement: Name is required, Price > 0) */}
+      {/* Mobile Responsive Cards Layout (visible on small mobile screens < sm) */}
+      <div className="sm:hidden space-y-2.5">
+        {filteredProducts.length === 0 ? (
+          <div className="p-8 text-center text-stone-400 bg-white rounded-xl border border-stone-200 text-xs">
+            No products found matching filters.
+          </div>
+        ) : (
+          filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white rounded-xl border border-stone-200 p-3.5 shadow-2xs space-y-3"
+            >
+              <div className="flex items-center gap-3">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-14 h-14 rounded-lg object-cover border border-stone-200 shrink-0"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-stone-500 font-medium">
+                      {product.category}
+                    </span>
+                    <span className="font-mono font-bold text-sm text-stone-900 tabular-nums">
+                      ${product.price.toFixed(2)}
+                    </span>
+                  </div>
+                  <h4 className="font-bold text-sm text-stone-900 truncate">
+                    {product.name}
+                  </h4>
+                  <div className="text-[11px] text-stone-500 flex items-center gap-2 mt-0.5">
+                    <span>Stock: {product.stock ?? 0}</span>
+                    <span>·</span>
+                    <span className={product.available ? 'text-emerald-700' : 'text-stone-400'}>
+                      {product.available ? 'Active' : 'Unavailable'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Actions Strip */}
+              <div className="pt-2 border-t border-stone-100 flex items-center justify-between gap-2">
+                <button
+                  onClick={() => handleToggleAvailability(product)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${
+                    product.available
+                      ? 'bg-emerald-50 text-emerald-800'
+                      : 'bg-stone-100 text-stone-600'
+                  }`}
+                >
+                  {product.available ? 'Mark Unavailable' : 'Mark Available'}
+                </button>
+
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => handleOpenEditModal(product)}
+                    className="p-2 text-stone-600 hover:bg-stone-100 rounded-lg"
+                    title="Edit"
+                  >
+                    <Edit3 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => onDeleteProduct(product.id)}
+                    className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg"
+                    title="Delete"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* The Form Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col">
-            <div className="p-5 border-b border-stone-200 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-stone-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col my-auto max-h-[90vh]">
+            <div className="p-4 sm:p-5 border-b border-stone-200 flex items-center justify-between shrink-0">
+              <h3 className="text-base sm:text-lg font-bold text-stone-900">
                 {editingProduct ? 'Edit Coffee Drink' : 'Add New Drink to Menu'}
               </h3>
               <button
@@ -322,7 +397,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[75vh]">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto">
               {/* Drink Name */}
               <div>
                 <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1">
@@ -352,7 +427,6 @@ export const MenuPage: React.FC<MenuPageProps> = ({
 
               {/* Price & Category in row */}
               <div className="grid grid-cols-2 gap-3">
-                {/* Price */}
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1">
                     Price ($) *
@@ -381,7 +455,6 @@ export const MenuPage: React.FC<MenuPageProps> = ({
                   )}
                 </div>
 
-                {/* Category */}
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1">
                     Category *
@@ -475,7 +548,7 @@ export const MenuPage: React.FC<MenuPageProps> = ({
               </label>
 
               {/* Actions */}
-              <div className="pt-3 border-t border-stone-200 flex items-center justify-end gap-2.5">
+              <div className="pt-3 border-t border-stone-200 flex items-center justify-end gap-2.5 shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
