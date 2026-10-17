@@ -1,0 +1,6 @@
+{
+  "name": "BaristaPro Coffee POS & Admin",
+  "description": "Artisanal coffee shop Point of Sale (POS) and management dashboard with live cart ordering, product menu CRUD, sales analytics, and thermal receipt printing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
